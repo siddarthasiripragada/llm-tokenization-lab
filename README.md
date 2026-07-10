@@ -120,7 +120,7 @@ The practical lesson is simple: the model-visible length of text depends on the 
 
 Most hosted LLM APIs price and limit usage in tokens.
 
-More input tokens usually means more work. More expected output tokens reserve more room. The context window is not a suggestion; it is a budget.
+More input tokens usually means more work. More expected output tokens reserve more room. The context window is a hard budget.
 
 This project includes a small budgeting helper:
 
