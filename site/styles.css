@@ -109,6 +109,7 @@ main {
 .button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 42px;
   padding: 0 16px;
   border: 1px solid var(--line);
@@ -120,6 +121,25 @@ main {
   border-color: var(--accent);
   background: var(--accent);
   color: #fff;
+}
+
+.button.small {
+  min-height: 36px;
+  cursor: pointer;
+}
+
+.inline-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.copy-status {
+  min-height: 20px;
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .hook-panel,
@@ -270,6 +290,43 @@ input {
   background: #fbfcfd;
 }
 
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.legend-word {
+  background: #0f766e;
+}
+
+.legend-number {
+  background: #2563eb;
+}
+
+.legend-punctuation {
+  background: #b45309;
+}
+
+.legend-symbol {
+  background: #7c3aed;
+}
+
 .token,
 .chunk-token {
   display: inline-flex;
@@ -282,6 +339,30 @@ input {
   color: var(--accent-dark);
   font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
   font-size: 13px;
+}
+
+.token-word {
+  border-color: #b8dcd6;
+  background: var(--soft);
+  color: var(--accent-dark);
+}
+
+.token-number {
+  border-color: #bfd2ff;
+  background: #eef4ff;
+  color: #1d4ed8;
+}
+
+.token-punctuation {
+  border-color: #f0c36d;
+  background: #fff6df;
+  color: var(--warm);
+}
+
+.token-symbol {
+  border-color: #d7c7ff;
+  background: #f4f0ff;
+  color: #6d28d9;
 }
 
 .bar {

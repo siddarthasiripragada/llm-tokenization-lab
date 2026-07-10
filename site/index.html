@@ -52,10 +52,17 @@
               <option value="json">JSON payload</option>
               <option value="log">Log line</option>
               <option value="identifier">Domain identifier</option>
+              <option value="code">Code snippet</option>
+              <option value="unicode">Emoji and Unicode</option>
             </select>
 
             <label for="tokenInput">Input text</label>
             <textarea id="tokenInput" rows="8"></textarea>
+            <div class="inline-actions">
+              <button id="copyTokens" class="button small" type="button">Copy tokens</button>
+              <button id="copySummary" class="button small" type="button">Copy summary</button>
+              <span id="copyStatus" class="copy-status" role="status" aria-live="polite"></span>
+            </div>
           </div>
           <div class="results">
             <div class="metric-grid">
@@ -71,6 +78,12 @@
                 <span>Characters</span>
                 <strong id="charCount">0</strong>
               </div>
+            </div>
+            <div class="legend" aria-label="Token type legend">
+              <span><i class="legend-word"></i>word</span>
+              <span><i class="legend-number"></i>number</span>
+              <span><i class="legend-punctuation"></i>punctuation</span>
+              <span><i class="legend-symbol"></i>symbol</span>
             </div>
             <div id="tokenList" class="token-list" aria-live="polite"></div>
           </div>

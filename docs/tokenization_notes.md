@@ -8,6 +8,15 @@ Before retrieval, reasoning, summarization, or tool use, text is converted into 
 
 The important engineering point is not that every team needs to implement a tokenizer. The point is that every serious LLM system needs to measure and budget tokens.
 
+```mermaid
+flowchart LR
+    A["Text"] --> B["Tokens"]
+    B --> C["Token IDs"]
+    C --> D["Embeddings"]
+    D --> E["Transformer layers"]
+    E --> F["Next-token prediction"]
+```
+
 ## Words vs Tokens
 
 Words are a human reading unit. Tokens are a model input unit.
@@ -23,6 +32,8 @@ Subword tokenization reuses common pieces.
 Instead of storing every possible word, a tokenizer can represent text with reusable fragments. Common fragments reduce sequence length. Rare strings can still be represented by combining smaller pieces.
 
 This is useful for open-ended language, but it means unusual formats can split more than expected.
+
+The tokenizer in this repository uses a simple regex so the mechanics are easy to inspect. Production systems usually use optimized tokenizer libraries with learned vocabularies and model-specific behavior.
 
 ## Tokenization and Embeddings
 
@@ -62,6 +73,22 @@ They contain punctuation, repeated keys, quotes, separators, long identifiers, a
 
 For production systems, structured data should be trimmed, summarized, or transformed before it is packed into prompts.
 
+## Tokenization and Agent Tool Output
+
+Agent systems often add tool calls, tool results, traces, retrieved snippets, and intermediate state to the prompt.
+
+That material can grow quietly. A single tool result may include JSON, logs, stack traces, or tables. If the system does not budget those tokens, the final prompt can crowd out the user request or the retrieved evidence that actually matters.
+
+In agent workflows, token budgeting should include expected tool output, not only user-visible chat messages.
+
+## Multimodal and Long-Context Notes
+
+Tokenization is not only about plain text.
+
+Multimodal models may represent images, audio, or video with their own units, such as patches, frames, or learned embeddings. Long-context models increase the available budget, but they do not remove the need to budget. More context can still mean more latency, higher cost, and more opportunities to pack irrelevant information.
+
+The practical rule remains the same: measure what the model actually receives.
+
 ## Practical Engineering Rules
 
 - Measure tokens early.
@@ -72,4 +99,3 @@ For production systems, structured data should be trimmed, summarized, or transf
 - Watch JSON, SQL, logs, and tables carefully.
 - Keep a safety margin for formatting and tool output variance.
 - Treat tokenizer differences as model-specific behavior.
-

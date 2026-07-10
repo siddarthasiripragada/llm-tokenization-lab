@@ -1,6 +1,9 @@
 # Tokenization: The First Thing Most People Skip
 
 [![Tests](https://github.com/siddarthasiripragada/llm-tokenization-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/siddarthasiripragada/llm-tokenization-lab/actions/workflows/tests.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Interactive UI](https://img.shields.io/badge/interactive-static%20HTML%2FJS-teal)](site/index.html)
 
 This SQL query looks short:
 
@@ -22,7 +25,7 @@ Tokenization affects cost, latency, context window usage, RAG chunking, prompt d
 
 This repository explains tokenization from first principles with small Python examples and a static interactive UI. It uses only the Python standard library at runtime. No paid API key is required, and there are no external LLM API calls.
 
-## Interactive UI
+## Try It Now
 
 Open the static lab UI:
 
@@ -32,14 +35,25 @@ start site/index.html
 
 Or open `site/index.html` directly in a browser.
 
+For a hosted version, enable GitHub Pages for the repository and point it at the `site/` folder. Then share the Pages URL in the repo About panel.
+
 The UI includes:
 
-- live tokenization
+- live tokenization with token type highlighting
 - word count vs token count
-- SQL, JSON, log, and identifier examples
+- SQL, JSON, log, code, Unicode, and identifier examples
 - a token budget calculator
 - a prompt cost estimator
-- token-aware chunking
+- token-aware chunking with overlap
+- copy buttons for tokens and Markdown summaries
+
+## What This Is Not
+
+This is not a replacement for `tiktoken`, SentencePiece, BPE tokenizers, or any provider-specific tokenizer.
+
+The tokenizer here is intentionally simple. It splits text into words, numbers, punctuation, and symbols so the engineering ideas are easy to see. Real model tokenizers use learned vocabularies, subword merges, byte-level handling, and provider-specific rules.
+
+Use this repo to build intuition. Use a production tokenizer when exact model counts matter.
 
 ## Overview
 
@@ -170,32 +184,32 @@ This is not a billing calculator. It is a first-principles tool for understandin
 
 ```text
 llm-tokenization-lab/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── pyproject.toml
-├── .github/
-│   └── workflows/
-│       └── tests.yml
-├── docs/
-│   └── tokenization_notes.md
-├── examples/
-│   └── run_demo.py
-├── site/
-│   ├── index.html
-│   ├── styles.css
-│   └── app.js
-├── src/
-│   └── llm_tokenization_lab/
-│       ├── __init__.py
-│       ├── simple_tokenizer.py
-│       ├── token_budget.py
-│       ├── prompt_cost_estimator.py
-│       └── chunk_size_demo.py
-└── tests/
-    ├── test_simple_tokenizer.py
-    ├── test_token_budget.py
-    └── test_prompt_cost_estimator.py
+|-- README.md
+|-- LICENSE
+|-- requirements.txt
+|-- pyproject.toml
+|-- .github/
+|   `-- workflows/
+|       `-- tests.yml
+|-- docs/
+|   `-- tokenization_notes.md
+|-- examples/
+|   `-- run_demo.py
+|-- site/
+|   |-- index.html
+|   |-- styles.css
+|   `-- app.js
+|-- src/
+|   `-- llm_tokenization_lab/
+|       |-- __init__.py
+|       |-- simple_tokenizer.py
+|       |-- token_budget.py
+|       |-- prompt_cost_estimator.py
+|       `-- chunk_size_demo.py
+`-- tests/
+    |-- test_simple_tokenizer.py
+    |-- test_token_budget.py
+    `-- test_prompt_cost_estimator.py
 ```
 
 ## How to Run
@@ -214,6 +228,17 @@ python examples/run_demo.py
 python -m pytest
 ```
 
+## Roadmap
+
+- Add more multilingual and code-heavy examples.
+- Add optional side-by-side comparison notes for real tokenizers without making them runtime dependencies.
+- Add a small screenshot or short demo GIF once GitHub Pages is enabled.
+- Expand chunking examples around RAG document packing and agent tool output.
+
+## Contributing
+
+PRs are welcome for new examples, clearer explanations, accessibility improvements, and small educational utilities. Keep runtime dependencies out of the core package unless there is a strong reason.
+
 ## GitHub Metadata
 
 If you have the GitHub CLI installed, set the repo description and topics with:
@@ -222,6 +247,8 @@ If you have the GitHub CLI installed, set the repo description and topics with:
 gh repo edit siddarthasiripragada/llm-tokenization-lab \
   -d "First-principles Python examples for understanding tokenization, token budgets, context windows, prompt cost estimation, and LLM system design." \
   --add-topic llm \
+  --add-topic llm-education \
+  --add-topic visualization \
   --add-topic tokenization \
   --add-topic prompt-engineering \
   --add-topic rag \
