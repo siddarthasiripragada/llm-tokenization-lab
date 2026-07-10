@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "llm-tokenization-lab"
 version = "0.1.0"
-description = "A hands-on Python lab for learning LLM tokenization concepts."
+description = "First-principles examples for tokenization, token budgets, and LLM context window management."
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
@@ -21,12 +21,13 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0"]
+dev = ["pytest>=8.0.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
 pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-v"
 
