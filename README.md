@@ -1,12 +1,45 @@
 # Tokenization: The First Thing Most People Skip
 
-Before an LLM reasons, retrieves, summarizes, or uses tools, it does something much simpler: it turns text into tokens.
+[![Tests](https://github.com/siddarthasiripragada/llm-tokenization-lab/actions/workflows/tests.yml/badge.svg)](https://github.com/siddarthasiripragada/llm-tokenization-lab/actions/workflows/tests.yml)
 
-That step looks small. It is not small in the system.
+This SQL query looks short:
+
+```sql
+SELECT user_id, COUNT(*) FROM events WHERE status = 'failed';
+```
+
+But the educational tokenizer in this repo sees **18 tokens**:
+
+```text
+['SELECT', 'user', '_', 'id', ',', 'COUNT', '(', '*', ')', 'FROM', 'events', 'WHERE', 'status', '=', "'", 'failed', "'", ';']
+```
+
+That is the point of this lab: human-visible length and model-visible length are not the same.
+
+Before an LLM reasons, retrieves, summarizes, or uses tools, it does something much simpler: it turns text into tokens.
 
 Tokenization affects cost, latency, context window usage, RAG chunking, prompt design, retrieval quality, and how structured data behaves inside a prompt.
 
-This repository explains tokenization from first principles with small Python examples. It uses only the Python standard library at runtime. No paid API key is required, and there are no external LLM API calls.
+This repository explains tokenization from first principles with small Python examples and a static interactive UI. It uses only the Python standard library at runtime. No paid API key is required, and there are no external LLM API calls.
+
+## Interactive UI
+
+Open the static lab UI:
+
+```bash
+start site/index.html
+```
+
+Or open `site/index.html` directly in a browser.
+
+The UI includes:
+
+- live tokenization
+- word count vs token count
+- SQL, JSON, log, and identifier examples
+- a token budget calculator
+- a prompt cost estimator
+- token-aware chunking
 
 ## Overview
 
@@ -111,6 +144,8 @@ Token-aware chunking helps you reserve space for:
 - the model response
 - a safety margin
 
+One implementation detail is intentional: `chunk_by_token_budget` rejoins tokens with spaces, so punctuation adjacency is not preserved. It is an educational token-budget demo, not a semantic chunker or text reconstruction tool.
+
 ## Token Budgeting Example
 
 The included cost estimator uses the educational tokenizer to approximate cost:
@@ -136,9 +171,20 @@ This is not a billing calculator. It is a first-principles tool for understandin
 ```text
 llm-tokenization-lab/
 ├── README.md
+├── LICENSE
 ├── requirements.txt
 ├── pyproject.toml
-├── .gitignore
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── docs/
+│   └── tokenization_notes.md
+├── examples/
+│   └── run_demo.py
+├── site/
+│   ├── index.html
+│   ├── styles.css
+│   └── app.js
 ├── src/
 │   └── llm_tokenization_lab/
 │       ├── __init__.py
@@ -146,14 +192,10 @@ llm-tokenization-lab/
 │       ├── token_budget.py
 │       ├── prompt_cost_estimator.py
 │       └── chunk_size_demo.py
-├── tests/
-│   ├── test_simple_tokenizer.py
-│   ├── test_token_budget.py
-│   └── test_prompt_cost_estimator.py
-├── docs/
-│   └── tokenization_notes.md
-└── examples/
-    └── run_demo.py
+└── tests/
+    ├── test_simple_tokenizer.py
+    ├── test_token_budget.py
+    └── test_prompt_cost_estimator.py
 ```
 
 ## How to Run
@@ -169,7 +211,23 @@ python examples/run_demo.py
 ## How to Test
 
 ```bash
-pytest
+python -m pytest
+```
+
+## GitHub Metadata
+
+If you have the GitHub CLI installed, set the repo description and topics with:
+
+```bash
+gh repo edit siddarthasiripragada/llm-tokenization-lab \
+  -d "First-principles Python examples for understanding tokenization, token budgets, context windows, prompt cost estimation, and LLM system design." \
+  --add-topic llm \
+  --add-topic tokenization \
+  --add-topic prompt-engineering \
+  --add-topic rag \
+  --add-topic context-window \
+  --add-topic ai-engineering \
+  --add-topic python
 ```
 
 ## Key Takeaways
@@ -181,4 +239,3 @@ pytest
 - RAG chunking should be token-aware.
 - JSON, SQL, logs, and tables can consume many tokens quickly.
 - Token budgeting is a production LLM engineering concern.
-

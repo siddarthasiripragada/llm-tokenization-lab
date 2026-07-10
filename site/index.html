@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LLM Tokenization Lab</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#tokenizer">LLM Tokenization Lab</a>
+      <nav aria-label="Main navigation">
+        <a href="#tokenizer">Tokenizer</a>
+        <a href="#budget">Budget</a>
+        <a href="#cost">Cost</a>
+        <a href="#chunking">Chunking</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Tokenization: The First Thing Most People Skip</p>
+          <h1>A short SQL query can become 18 model-visible tokens.</h1>
+          <p>
+            Before an LLM reasons, retrieves, summarizes, or uses tools, it turns text into tokens.
+            This interactive lab makes that boundary visible.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#tokenizer">Try the tokenizer</a>
+            <a class="button" href="https://github.com/siddarthasiripragada/llm-tokenization-lab">View GitHub</a>
+          </div>
+        </div>
+        <div class="hook-panel" aria-label="Token count example">
+          <code>SELECT user_id, COUNT(*) FROM events WHERE status = 'failed';</code>
+          <strong>18 tokens</strong>
+          <span>Words are not the model's unit of work.</span>
+        </div>
+      </section>
+
+      <section id="tokenizer" class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Live Tokenizer</p>
+          <h2>Text is not what the model sees</h2>
+        </div>
+        <div class="workspace">
+          <div class="controls">
+            <label for="exampleSelect">Example</label>
+            <select id="exampleSelect">
+              <option value="english">English sentence</option>
+              <option value="sql">SQL query</option>
+              <option value="json">JSON payload</option>
+              <option value="log">Log line</option>
+              <option value="identifier">Domain identifier</option>
+            </select>
+
+            <label for="tokenInput">Input text</label>
+            <textarea id="tokenInput" rows="8"></textarea>
+          </div>
+          <div class="results">
+            <div class="metric-grid">
+              <div class="metric">
+                <span>Tokens</span>
+                <strong id="tokenCount">0</strong>
+              </div>
+              <div class="metric">
+                <span>Words</span>
+                <strong id="wordCount">0</strong>
+              </div>
+              <div class="metric">
+                <span>Characters</span>
+                <strong id="charCount">0</strong>
+              </div>
+            </div>
+            <div id="tokenList" class="token-list" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="budget" class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Context Window</p>
+          <h2>Treat context as a token budget</h2>
+        </div>
+        <div class="calculator">
+          <div class="field-grid">
+            <label>Max context tokens<input id="maxContext" type="number" min="1" value="8192"></label>
+            <label>System prompt<input id="systemPrompt" type="number" min="0" value="600"></label>
+            <label>User query<input id="userQuery" type="number" min="0" value="120"></label>
+            <label>Expected output<input id="expectedOutput" type="number" min="0" value="900"></label>
+            <label>Safety margin<input id="safetyMargin" type="number" min="0" value="500"></label>
+            <label>Chat history<input id="chatHistory" type="number" min="0" value="700"></label>
+            <label>Tool output<input id="toolOutput" type="number" min="0" value="250"></label>
+          </div>
+          <div class="budget-output">
+            <div class="bar"><span id="budgetBar"></span></div>
+            <div class="metric-grid">
+              <div class="metric"><span>Used</span><strong id="usedTokens">0</strong></div>
+              <div class="metric"><span>Retrieval room</span><strong id="retrievalTokens">0</strong></div>
+              <div class="metric"><span>Utilization</span><strong id="utilization">0%</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cost" class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Prompt Cost</p>
+          <h2>Estimate before prompts become large</h2>
+        </div>
+        <div class="calculator">
+          <div class="controls">
+            <label for="costInput">Prompt text</label>
+            <textarea id="costInput" rows="5">Summarize this incident log and identify likely root cause.</textarea>
+          </div>
+          <div class="field-grid">
+            <label>Expected output tokens<input id="costOutputTokens" type="number" min="0" value="300"></label>
+            <label>Input cost per 1K<input id="inputCost" type="number" min="0" step="0.001" value="0.005"></label>
+            <label>Output cost per 1K<input id="outputCost" type="number" min="0" step="0.001" value="0.015"></label>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><span>Input tokens</span><strong id="costInputTokens">0</strong></div>
+            <div class="metric"><span>Total tokens</span><strong id="costTotalTokens">0</strong></div>
+            <div class="metric"><span>Estimated cost</span><strong id="estimatedCost">$0.000000</strong></div>
+          </div>
+          <p class="note">Educational estimate only. Production billing depends on the model provider's tokenizer and pricing.</p>
+        </div>
+      </section>
+
+      <section id="chunking" class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">RAG Chunking</p>
+          <h2>Chunk by token budget, not only characters</h2>
+        </div>
+        <div class="workspace">
+          <div class="controls">
+            <label for="chunkInput">Document text</label>
+            <textarea id="chunkInput" rows="7">Tokenization affects cost latency context windows retrieval quality and prompt design in production LLM systems.</textarea>
+            <div class="field-grid compact">
+              <label>Max tokens<input id="chunkMax" type="number" min="1" value="6"></label>
+              <label>Overlap<input id="chunkOverlap" type="number" min="0" value="2"></label>
+            </div>
+          </div>
+          <div id="chunks" class="chunks" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
