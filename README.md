@@ -36,8 +36,6 @@ https://github.com/siddarthasiripragada/llm-tokenization-lab
 
 Or open `site/index.html` directly in a browser.
 
-For a hosted version, enable GitHub Pages for the repository and point it at the `site/` folder. Then share the Pages URL in the repo About panel.
-
 The UI includes:
 
 - live tokenization with token type highlighting
