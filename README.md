@@ -229,35 +229,6 @@ python examples/run_demo.py
 python -m pytest
 ```
 
-## Roadmap
-
-- Add more multilingual and code-heavy examples.
-- Add optional side-by-side comparison notes for real tokenizers without making them runtime dependencies.
-- Add a small screenshot or short demo GIF once GitHub Pages is enabled.
-- Expand chunking examples around RAG document packing and agent tool output.
-
-## Contributing
-
-PRs are welcome for new examples, clearer explanations, accessibility improvements, and small educational utilities. Keep runtime dependencies out of the core package unless there is a strong reason.
-
-## GitHub Metadata
-
-If you have the GitHub CLI installed, set the repo description and topics with:
-
-```bash
-gh repo edit siddarthasiripragada/llm-tokenization-lab \
-  -d "First-principles Python examples for understanding tokenization, token budgets, context windows, prompt cost estimation, and LLM system design." \
-  --add-topic llm \
-  --add-topic llm-education \
-  --add-topic visualization \
-  --add-topic tokenization \
-  --add-topic prompt-engineering \
-  --add-topic rag \
-  --add-topic context-window \
-  --add-topic ai-engineering \
-  --add-topic python
-```
-
 ## Key Takeaways
 
 - Text is not what the model sees.
