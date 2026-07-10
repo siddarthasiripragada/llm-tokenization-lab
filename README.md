@@ -30,7 +30,8 @@ This repository explains tokenization from first principles with small Python ex
 Open the static lab UI:
 
 ```bash
-start site/index.html
+https://github.com/siddarthasiripragada/llm-tokenization-lab
+
 ```
 
 Or open `site/index.html` directly in a browser.
